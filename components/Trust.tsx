@@ -11,17 +11,17 @@ const LOGOS = [
 
 export default function Trust() {
   return (
-    <section className="border-t border-white/5 py-16">
+    <section className="border-t border-white/5 py-20">
       <div className="container-x">
         <Reveal>
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.28em] text-white/35">
+          <p className="label-muted text-center">
             Gemaakt voor barbershops door heel Nederland
           </p>
-          <div className="mt-9 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="mt-12 grid grid-cols-2 items-center gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
             {LOGOS.map((l) => (
               <span
                 key={l}
-                className="text-center font-display text-lg font-semibold tracking-tight text-white/30 transition-colors hover:text-white/60"
+                className="text-center font-display text-lg font-light tracking-tight text-white/25 transition-colors hover:text-white/55"
               >
                 {l}
               </span>

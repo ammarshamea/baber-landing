@@ -3,50 +3,64 @@ import Reveal from "./Reveal";
 const VALUES = [
   {
     n: "01",
-    title: "Zonder drempels boeken",
-    body: "Klanten boeken direct — geen account, geen wachtwoord, geen onnodige gegevens. Minder afhakers, meer afspraken.",
+    title: "Eenvoud",
+    body: "Boeken zonder drempels — geen account, geen wachtwoord, geen onnodige gegevens.",
   },
   {
     n: "02",
-    title: "Premium uitstraling",
-    body: "Een donkere, cinematische look die vertrouwen wekt en past bij een shop die z'n vak serieus neemt.",
+    title: "Vakmanschap",
+    body: "Een donkere, cinematische uitstraling die past bij een shop die z'n vak serieus neemt.",
   },
   {
     n: "03",
-    title: "Alles op één plek",
-    body: "Foto's, diensten, prijzen, openingstijden en agenda — overzichtelijk samengebracht in één eigen website.",
+    title: "Betrouwbaarheid",
+    body: "Een stabiel systeem met herinneringen en notificaties waar jij en je klanten op rekenen.",
   },
   {
     n: "04",
-    title: "Gemaakt om te groeien",
-    body: "Van één stoel tot meerdere vestigingen: Baber schaalt mee, met dashboard, rapportages en personeelsbeheer.",
+    title: "Samenwerking",
+    body: "We groeien mee met jouw shop, je team en je klanten — van eerste stoel tot keten.",
+  },
+  {
+    n: "05",
+    title: "Impact",
+    body: "We meten succes niet in klikken, maar in volle agenda's en minder no-shows.",
   },
 ];
 
 export default function Values() {
   return (
-    <section className="relative border-t border-white/5 bg-neutral-950 py-28 md:py-36">
+    <section className="relative border-t border-white/5 py-28 md:py-40">
       <div className="container-x">
-        <div className="flex items-center gap-4">
-          <span className="section-index">02</span>
+        <Reveal>
           <span className="eyebrow">Waar we voor staan</span>
-        </div>
-        <h2 className="display-heading mt-6 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] text-white">
-          Vier principes die het verschil maken.
-        </h2>
+          <h2 className="display-heading mt-7 max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] text-white">
+            Onze <span className="accent-serif">waarden</span>
+          </h2>
+        </Reveal>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/5 sm:grid-cols-2">
+        <div className="mt-16 border-t border-white/10">
           {VALUES.map((v, i) => (
             <Reveal
               key={v.n}
-              delay={i * 80}
-              className="group bg-neutral-950 p-8 transition-colors duration-500 hover:bg-neutral-900 md:p-11"
+              delay={i * 70}
+              className="group grid grid-cols-1 items-center gap-4 border-b border-white/10 py-8 md:grid-cols-12 md:gap-8 md:py-10"
             >
-              <span className="font-display text-5xl font-semibold text-white/10 transition-colors duration-500 group-hover:text-brand">
-                {v.n}
-              </span>
-              <h3 className="mt-6 text-2xl font-semibold text-white">{v.title}</h3>
-              <p className="mt-3 leading-relaxed text-white/55">{v.body}</p>
+              <div className="md:col-span-2">
+                <span className="index-number text-5xl transition-colors duration-500 group-hover:text-brand/30 md:text-6xl">
+                  {v.n}
+                </span>
+              </div>
+              <div className="md:col-span-4">
+                <h3 className="text-2xl font-light text-brand md:text-3xl">
+                  {v.title}
+                </h3>
+              </div>
+              <div className="md:col-span-6">
+                <p className="max-w-xl text-base font-light leading-relaxed text-white/55 md:text-lg">
+                  {v.body}
+                </p>
+              </div>
             </Reveal>
           ))}
         </div>

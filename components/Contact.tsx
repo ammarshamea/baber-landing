@@ -34,31 +34,31 @@ export default function Contact() {
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             Klaar voor een fresh cut?
           </span>
-          <h2 className="display-heading mt-7 text-[clamp(2.4rem,7vw,5rem)] text-white">
+          <h2 className="display-heading mt-7 text-[clamp(2.75rem,8vw,6rem)] text-white">
             Zet jouw shop
             <br />
-            <span className="text-brand">vandaag online.</span>
+            <span className="accent-serif">vandaag online.</span>
           </h2>
-          <p className="mx-auto mt-7 max-w-xl text-lg text-white/65">
+          <p className="mx-auto mt-7 max-w-xl text-lg font-light text-white/65">
             Stuur ons een bericht via WhatsApp en we laten je zien hoe Baber jouw
             barbershop online laat knallen — met een agenda die zichzelf vult.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-11 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={whatsappLink(CONTACT_WHATSAPP_MESSAGE)}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary text-base"
+              className="btn-primary"
             >
               Start via WhatsApp
             </a>
-            <a href="#prijzen" className="btn-ghost text-base">
+            <a href="#prijzen" className="btn-ghost">
               Bekijk de pakketten
             </a>
           </div>
 
-          <p className="mt-8 text-sm text-white/40">
+          <p className="mt-8 text-sm font-light text-white/40">
             Of mail ons via{" "}
             <a
               href={`mailto:${BRAND.email}`}

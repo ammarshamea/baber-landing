@@ -11,16 +11,13 @@ export default function BookingHighlight() {
       />
       <div className="container-x grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
         <Reveal className="order-2 lg:order-1">
-          <div className="flex items-center gap-4">
-            <span className="section-index">04</span>
-            <span className="eyebrow">De kern</span>
-          </div>
-          <h2 className="display-heading mt-6 text-[clamp(2rem,5vw,3.5rem)] text-white">
+          <span className="eyebrow">De kern</span>
+          <h2 className="display-heading mt-7 text-[clamp(2.25rem,5.5vw,4rem)] text-white">
             Boeken zonder account.
             <br />
-            <span className="text-brand">Klaar in seconden.</span>
+            <span className="accent-serif">Klaar in seconden.</span>
           </h2>
-          <p className="mt-6 text-lg leading-relaxed text-white/65">
+          <p className="mt-7 text-lg font-light leading-relaxed text-white/65">
             De grootste rem op online afspraken? Verplicht registreren. Baber
             haalt die drempel weg: je klant kiest dienst, datum en tijd, en
             bevestigt direct. Geen account, geen wachtwoord, geen onnodige
@@ -33,7 +30,7 @@ export default function BookingHighlight() {
               "Direct bevestigen — zonder inloggen",
               "Automatische herinnering per bericht",
             ].map((item) => (
-              <li key={item} className="flex items-start gap-3 text-white/80">
+              <li key={item} className="flex items-start gap-3 font-light text-white/80">
                 <span className="mt-1 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-brand/15">
                   <svg viewBox="0 0 24 24" className="h-3 w-3 text-brand" fill="none" stroke="currentColor" strokeWidth="3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />

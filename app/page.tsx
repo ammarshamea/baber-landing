@@ -1,10 +1,11 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import VisionMission from "@/components/VisionMission";
 import Values from "@/components/Values";
 import Process from "@/components/Process";
-import BookingHighlight from "@/components/BookingHighlight";
 import Features from "@/components/Features";
+import BookingHighlight from "@/components/BookingHighlight";
 import Showcase from "@/components/Showcase";
 import Trust from "@/components/Trust";
 import Pricing from "@/components/Pricing";
@@ -18,10 +19,11 @@ export default function Home() {
       <main>
         <Hero />
         <About />
+        <VisionMission />
         <Values />
         <Process />
-        <BookingHighlight />
         <Features />
+        <BookingHighlight />
         <Showcase />
         <Trust />
         <Pricing />

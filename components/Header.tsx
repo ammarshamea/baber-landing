@@ -34,37 +34,52 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="container-x flex h-[68px] items-center justify-between">
-        <a href="#top" className="group flex items-center gap-3" aria-label="Baber — naar boven">
-          <span className="font-display text-2xl font-semibold tracking-tightest text-white">
+      <div className="container-x flex h-20 items-center justify-between">
+        {/* Merk */}
+        <a
+          href="#top"
+          className="group flex items-center gap-3"
+          aria-label="Baber — naar boven"
+        >
+          <span className="font-display text-2xl font-light tracking-tight text-white">
             Baber
           </span>
-          <span className="hidden items-center gap-1.5 border-l border-white/15 pl-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white/45 sm:flex">
+          <span className="hidden items-center gap-1.5 border-l border-white/15 pl-3 text-[10px] font-medium uppercase tracking-[0.24em] text-white/45 sm:flex">
             door
-            <Logo variant="white" width={62} height={16} className="translate-y-[1px] opacity-80" />
+            <Logo
+              variant="white"
+              width={58}
+              height={15}
+              className="translate-y-[1px] opacity-80"
+            />
           </span>
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Hoofdmenu">
+        {/* Gecentreerde navigatie */}
+        <nav
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 xl:flex"
+          aria-label="Hoofdmenu"
+        >
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="link-underline text-sm font-medium text-white/70 transition-colors hover:text-white"
+              className="link-underline text-[11px] font-medium uppercase tracking-[0.22em] text-white/65 transition-colors hover:text-white"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
+        {/* CTA */}
         <div className="flex items-center gap-3">
           <a
             href={whatsappLink(CONTACT_WHATSAPP_MESSAGE)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary hidden md:inline-flex"
+            className="btn-ghost hidden !py-3 md:inline-flex"
           >
-            Start via WhatsApp
+            Let&apos;s talk
           </a>
 
           <button
@@ -72,7 +87,7 @@ export default function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Menu sluiten" : "Menu openen"}
             aria-expanded={open}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white xl:hidden"
           >
             <span className="relative block h-3.5 w-5">
               <span
@@ -97,17 +112,20 @@ export default function Header() {
 
       {/* Mobiel menu */}
       <div
-        className={`overflow-hidden border-t border-white/10 bg-black/95 backdrop-blur-xl transition-[max-height,opacity] duration-500 lg:hidden ${
-          open ? "max-h-[520px] opacity-100" : "max-h-0 opacity-0"
+        className={`overflow-hidden border-t border-white/10 bg-black/95 backdrop-blur-xl transition-[max-height,opacity] duration-500 xl:hidden ${
+          open ? "max-h-[560px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="container-x flex flex-col gap-1 py-6" aria-label="Mobiel menu">
+        <nav
+          className="container-x flex flex-col gap-1 py-6"
+          aria-label="Mobiel menu"
+        >
           {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="rounded-2xl px-4 py-3 text-lg font-medium text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-2xl px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-colors hover:bg-white/5 hover:text-white"
             >
               {l.label}
             </a>
@@ -117,7 +135,7 @@ export default function Header() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
-            className="btn-primary mt-3 w-full"
+            className="btn-primary mt-4 w-full"
           >
             Start via WhatsApp
           </a>

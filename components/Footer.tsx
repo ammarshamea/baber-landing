@@ -10,15 +10,15 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
-              <span className="font-display text-3xl font-semibold tracking-tightest text-white">
+              <span className="font-display text-3xl font-light tracking-tight text-white">
                 Baber
               </span>
-              <span className="flex items-center gap-1.5 border-l border-white/15 pl-3 text-[11px] font-medium uppercase tracking-[0.2em] text-white/45">
+              <span className="flex items-center gap-1.5 border-l border-white/15 pl-3 text-[10px] font-medium uppercase tracking-[0.24em] text-white/45">
                 door
-                <Logo variant="white" width={62} height={16} className="translate-y-[1px] opacity-80" />
+                <Logo variant="white" width={60} height={15} className="translate-y-[1px] opacity-80" />
               </span>
             </div>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/50">
+            <p className="mt-6 max-w-sm text-sm font-light leading-relaxed text-white/50">
               {BRAND.tagline}. Baber is een product van {BRAND.company} — premium
               websites met directe online boekingen voor de moderne barbershop.
             </p>
@@ -33,15 +33,13 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-3 lg:col-start-8">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-white/40">
-              Navigatie
-            </h3>
-            <ul className="mt-5 space-y-3">
+            <h3 className="label-muted">Navigatie</h3>
+            <ul className="mt-6 space-y-3">
               {NAV_LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="link-underline text-sm text-white/65 transition-colors hover:text-white"
+                    className="link-underline text-sm font-light text-white/65 transition-colors hover:text-white"
                   >
                     {l.label}
                   </a>
@@ -51,10 +49,8 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.25em] text-white/40">
-              Contact
-            </h3>
-            <ul className="mt-5 space-y-3 text-sm text-white/65">
+            <h3 className="label-muted">Contact</h3>
+            <ul className="mt-6 space-y-3 text-sm font-light text-white/65">
               <li>
                 <a href={`mailto:${BRAND.email}`} className="link-underline hover:text-white">
                   {BRAND.email}

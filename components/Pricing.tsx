@@ -14,17 +14,14 @@ export default function Pricing() {
   const activePeriod = BILLING_PERIODS.find((p) => p.id === period)!;
 
   return (
-    <section id="prijzen" className="relative border-t border-white/5 py-28 md:py-36">
+    <section id="prijzen" className="relative border-t border-white/5 py-28 md:py-40">
       <div className="container-x">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="flex items-center justify-center gap-4">
-            <span className="section-index">07</span>
-            <span className="eyebrow">Prijzen</span>
-          </div>
-          <h2 className="display-heading mt-6 text-[clamp(2rem,5vw,3.5rem)] text-white">
-            Kies je pakket.
+          <span className="eyebrow">Prijzen</span>
+          <h2 className="display-heading mt-7 text-[clamp(2.5rem,6vw,4.5rem)] text-white">
+            Kies je <span className="accent-serif">pakket</span>
           </h2>
-          <p className="mt-5 text-lg text-white/55">
+          <p className="mt-6 text-lg font-light text-white/55">
             Transparante prijzen, geen verrassingen. Afnemen doe je eenvoudig
             via WhatsApp — wij regelen de rest.
           </p>
@@ -43,7 +40,7 @@ export default function Pricing() {
                 role="tab"
                 aria-selected={period === p.id}
                 onClick={() => setPeriod(p.id)}
-                className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
                   period === p.id
                     ? "bg-brand text-white shadow-[0_8px_30px_-8px_rgba(230,5,13,0.7)]"
                     : "text-white/60 hover:text-white"
@@ -74,25 +71,25 @@ export default function Pricing() {
                 }`}
               >
                 {popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
                     Meest gekozen
                   </span>
                 )}
 
                 <div className="flex items-baseline justify-between">
-                  <h3 className="font-display text-2xl font-semibold text-white">
+                  <h3 className="font-display text-2xl font-light text-white">
                     {pkg.name}
                   </h3>
                 </div>
-                <p className="mt-2 min-h-[48px] text-sm leading-relaxed text-white/55">
+                <p className="mt-2 min-h-[48px] text-sm font-light leading-relaxed text-white/55">
                   {pkg.description}
                 </p>
 
                 <div className="mt-6 flex items-end gap-2">
-                  <span className="font-display text-5xl font-semibold tracking-tight text-white">
+                  <span className="font-display text-6xl font-extralight tracking-tight text-white">
                     €{price}
                   </span>
-                  <span className="mb-2 text-sm text-white/45">
+                  <span className="mb-2 text-sm font-light text-white/45">
                     {activePeriod.suffix}
                   </span>
                 </div>
@@ -108,7 +105,7 @@ export default function Pricing() {
 
                 <ul className="mt-8 space-y-3.5 border-t border-white/10 pt-8">
                   {pkg.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm text-white/75">
+                    <li key={f} className="flex items-start gap-3 text-sm font-light text-white/75">
                       <span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-brand/15">
                         <svg
                           viewBox="0 0 24 24"
@@ -129,7 +126,7 @@ export default function Pricing() {
           })}
         </div>
 
-        <p className="mt-10 text-center text-sm text-white/40">
+        <p className="mt-10 text-center text-sm font-light text-white/40">
           Alle bedragen in euro&apos;s. Aankoop verloopt via WhatsApp — je zit
           nergens direct aan vast.
         </p>

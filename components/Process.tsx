@@ -3,57 +3,63 @@ import Reveal from "./Reveal";
 const STEPS = [
   {
     n: "01",
-    title: "Kennismaken",
-    body: "Je stuurt ons een berichtje via WhatsApp. We bespreken je shop, je diensten en hoe je wilt werken.",
+    title: "Zet je site op",
+    body: "Wij bouwen jouw website: foto's, diensten, prijzen, openingstijden en de online agenda — volledig ingericht en klaar voor gebruik.",
   },
   {
     n: "02",
-    title: "Opbouwen",
-    body: "Wij zetten jouw website op: foto's, diensten, prijzen, openingstijden en de online agenda — helemaal ingericht.",
+    title: "Klanten boeken",
+    body: "Bezoekers kiezen dienst, datum en tijd en bevestigen direct — zonder account, zonder gedoe, dag en nacht.",
   },
   {
     n: "03",
-    title: "Live gaan",
-    body: "We zetten de site live met je eigen adres, gekoppeld aan je socials en vindbaar in Google.",
+    title: "Beheer je salon",
+    body: "Regel afspraken, personeel en teksten vanuit één overzichtelijk dashboard. Alles onder controle, op elk moment.",
   },
   {
     n: "04",
-    title: "Volgeboekt raken",
-    body: "Klanten boeken 24/7 online. Jij houdt overzicht via het dashboard, met herinneringen en rapportages.",
+    title: "Groei verder",
+    body: "Volg je omzet, stuur automatische herinneringen en breid moeiteloos uit naar meerdere vestigingen.",
   },
 ];
 
 export default function Process() {
   return (
-    <section id="werkwijze" className="relative border-t border-white/5 py-28 md:py-36">
+    <section
+      id="werkwijze"
+      className="relative border-t border-white/5 bg-neutral-950 py-28 md:py-40"
+    >
       <div className="container-x">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-4">
-            <span className="section-index">03</span>
-            <span className="eyebrow">Werkwijze</span>
-          </div>
-          <h2 className="display-heading mt-6 text-[clamp(2rem,5vw,3.5rem)] text-white">
-            Van berichtje tot volgeboekte agenda.
+        <Reveal className="max-w-2xl">
+          <span className="eyebrow">Werkwijze</span>
+          <h2 className="display-heading mt-7 text-[clamp(2.5rem,6vw,4.5rem)] text-white">
+            Onze <span className="accent-serif">werkwijze</span>
           </h2>
-          <p className="mt-5 text-lg text-white/55">
-            Vier heldere stappen. Geen technische kennis nodig — dat regelen wij.
+          <p className="mt-6 text-lg font-light text-white/55">
+            Van eerste berichtje tot volgeboekte agenda — in vier heldere
+            stappen. Technische kennis? Niet nodig, dat regelen wij.
           </p>
-        </div>
+        </Reveal>
 
-        <ol className="mt-16 grid gap-y-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((s, i) => (
-            <Reveal as="li" key={s.n} delay={i * 90} className="relative">
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full border border-brand/40 font-display text-lg font-semibold text-brand">
-                  {s.n}
-                </span>
-                <span className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+            <Reveal
+              key={s.n}
+              delay={i * 90}
+              className="group relative flex min-h-[280px] flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-8 transition-colors duration-500 hover:border-brand/40"
+            >
+              <span className="index-number text-6xl transition-colors duration-500 group-hover:text-brand/25">
+                {s.n}
+              </span>
+              <div>
+                <h3 className="text-xl font-normal text-white">{s.title}</h3>
+                <p className="mt-3 text-sm font-light leading-relaxed text-white/55">
+                  {s.body}
+                </p>
               </div>
-              <h3 className="mt-6 text-xl font-semibold text-white">{s.title}</h3>
-              <p className="mt-3 leading-relaxed text-white/55">{s.body}</p>
             </Reveal>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
   );
