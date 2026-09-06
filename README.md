@@ -106,16 +106,29 @@ hebben Nederlandse `alt`-teksten voor toegankelijkheid en SEO.
 
 ```
 app/
-  layout.tsx      # SEO-metadata, Open Graph, Twitter, JSON-LD, lang="nl"
+  layout.tsx      # SEO-metadata, Open Graph, Twitter, JSON-LD, lang="nl", fonts
   page.tsx        # samenstelling van alle secties
-  globals.css     # Tailwind + basisstijlen
+  globals.css     # Tailwind + design-systeem (thin headings, serif-accenten)
   robots.ts       # /robots.txt
   sitemap.ts      # /sitemap.xml
-components/        # Header, Hero, About, Values, Process, BookingHighlight,
-                  # Features, Showcase, Trust, Pricing, Contact, Footer, Logo, Reveal
+components/        # Header, Hero, About, VisionMission, Values, Process,
+                  # Features, BookingHighlight, Showcase, Trust, Pricing,
+                  # Contact, Footer, Logo, Reveal
 src/config/site.ts # WhatsApp-nummer, prijzen, merk, navigatie
 public/           # afbeeldingen + public/brand/ (logo's)
 ```
+
+### Typografie
+
+De cinematische look leunt op twee lettertypes, geladen via `next/font`
+(automatisch self-hosted tijdens de build — geen externe afhankelijkheid bij
+runtime):
+
+- **Inter** — dunne, strakke koppen en body (`--font-sans`).
+- **Playfair Display** *(italic)* — de elegante serif-accentwoorden
+  (`--font-serif`, klasse `.accent-serif`).
+
+Beide staan geconfigureerd in `app/layout.tsx` en `tailwind.config.ts`.
 
 ---
 
