@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://baber.nivx.nl
+Sitemap: https://baber.nivx.nl/sitemap.xml
