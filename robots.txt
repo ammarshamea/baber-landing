@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://ammarshamea.github.io/baber-landing/sitemap.xml
