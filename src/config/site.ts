@@ -1,132 +1,73 @@
 /**
- * =============================================================================
- *  BABER — centrale configuratie
- * =============================================================================
- *  Pas hier álles aan wat vaak verandert: WhatsApp-nummer, prijzen en merk.
- *  Je hoeft nergens anders in de code te zoeken.
- * =============================================================================
+ * BABER — central configuration.
+ * Everything that changes often lives here: WhatsApp number, prices, currencies, brand.
+ * All visible copy lives in src/i18n/{nl,en,ar}.ts.
  */
 
-/**
- * WhatsApp-nummer in internationaal formaat ZONDER "+" of spaties.
- * Voorbeeld Nederland: "31600000000"  (31 = landcode, daarna 6-nummer).
- * Dit nummer wordt gebruikt voor ALLE koop- en contactknoppen.
- */
+/** WhatsApp number in international format WITHOUT "+" or spaces, e.g. "31612345678". */
 export const WHATSAPP_NUMBER = "31600000000";
 
-/** Publieke basis-URL van de site (voor SEO / canonical / sitemap). */
-export const SITE_URL = "https://baber.nivx.nl";
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://baber.nivx.nl").replace(/\/$/, "");
+
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export const BRAND = {
   product: "Baber",
   company: "Nivx",
-  /** Korte pay-off die op meerdere plekken terugkomt. */
-  tagline: "Websites & online boekingen voor barbershops",
+  companyUrl: "https://nivx.nl",
   email: "hello@nivx.nl",
-  city: "Amsterdam, Nederland",
+  city: "Amsterdam",
+  country: "NL",
 } as const;
 
-/**
- * Bouwt een WhatsApp-link met een vooraf ingevuld Nederlands bericht.
- * Gebruikt op elke koopknop en de hoofd-CTA.
- */
 export function whatsappLink(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-/** Standaard contact-CTA (bovenaan / algemeen). */
-export const CONTACT_WHATSAPP_MESSAGE =
-  "Hoi Baber! Ik wil graag meer weten over een website met online boekingen voor mijn barbershop.";
-
 /* -------------------------------------------------------------------------- */
-/*  PRIJZEN                                                                    */
-/*  Bedragen zijn EUR-placeholders — pas ze hier in één keer aan.              */
+/*  PRICING — amounts are in EUR (billing currency).                          */
+/*  Other currencies are shown as an indicative conversion.                   */
 /* -------------------------------------------------------------------------- */
 
-export type BillingPeriodId = "maand" | "halfjaar" | "jaar";
+export type PeriodId = "month" | "half" | "year";
+export const PERIOD_MONTHS: Record<PeriodId, number> = { month: 1, half: 6, year: 12 };
 
-export interface BillingPeriod {
-  id: BillingPeriodId;
-  /** Label op de schakelknop. */
-  label: string;
-  /** Suffix achter de prijs, bv. "/ maand". */
-  suffix: string;
-  /** Naam van de periode in het WhatsApp-bericht. */
-  messageLabel: string;
-}
+export type PackageId = "essential" | "professional" | "multi";
 
-export const BILLING_PERIODS: BillingPeriod[] = [
-  { id: "maand", label: "1 maand", suffix: "/ maand", messageLabel: "1 maand" },
-  { id: "halfjaar", label: "6 maanden", suffix: "/ 6 mnd", messageLabel: "6 maanden" },
-  { id: "jaar", label: "1 jaar", suffix: "/ jaar", messageLabel: "1 jaar" },
+export const PACKAGE_PRICES_EUR: Record<PackageId, Record<PeriodId, number>> = {
+  essential: { month: 29, half: 149, year: 279 },
+  professional: { month: 49, half: 259, year: 479 },
+  multi: { month: 79, half: 419, year: 749 },
+};
+
+export const POPULAR_PACKAGE: PackageId = "professional";
+
+export type CurrencyId = "EUR" | "USD" | "GBP" | "AED" | "SAR";
+
+/** Indicative rates from EUR. Update when needed. */
+export const CURRENCIES: { id: CurrencyId; symbol: string; rate: number }[] = [
+  { id: "EUR", symbol: "€", rate: 1 },
+  { id: "USD", symbol: "$", rate: 1.1 },
+  { id: "GBP", symbol: "£", rate: 0.85 },
+  { id: "AED", symbol: "AED", rate: 4.0 },
+  { id: "SAR", symbol: "SAR", rate: 4.1 },
 ];
 
-export interface Package {
-  id: string;
-  name: string;
-  description: string;
-  /** Prijs (in hele euro's) per periode-id. */
-  prices: Record<BillingPeriodId, number>;
-  features: string[];
-  mostPopular?: boolean;
+export function convertPrice(eur: number, currency: CurrencyId): number {
+  const c = CURRENCIES.find((x) => x.id === currency) ?? CURRENCIES[0];
+  const raw = eur * c.rate;
+  if (c.rate === 1) return raw;
+  if (raw < 100) return Math.round(raw);
+  if (raw < 1000) return Math.round(raw / 5) * 5;
+  return Math.round(raw / 10) * 10;
 }
 
-export const PACKAGES: Package[] = [
-  {
-    id: "basis",
-    name: "Basis",
-    description: "Alles om online te starten met één shop.",
-    prices: { maand: 29, halfjaar: 149, jaar: 279 },
-    features: [
-      "Eigen website voor je shop",
-      "Diensten & prijzen",
-      "Openingstijden",
-      "Online boeken zonder account",
-      "Portfolio met foto's",
-      "Social media-links",
-    ],
-  },
-  {
-    id: "plus",
-    name: "Plus",
-    description: "Voor shops die willen groeien en meten.",
-    prices: { maand: 49, halfjaar: 259, jaar: 479 },
-    mostPopular: true,
-    features: [
-      "Alles uit Basis",
-      "SEO voor je shop-site",
-      "Admin-dashboard",
-      "Personeelsbeheer",
-      "Herinneringen & notificaties",
-      "Omzet & rapportages",
-    ],
-  },
-  {
-    id: "pro",
-    name: "Pro",
-    description: "Voor ketens met meerdere vestigingen.",
-    prices: { maand: 79, halfjaar: 419, jaar: 749 },
-    features: [
-      "Alles uit Plus",
-      "Meerdere vestigingen",
-      "Uitgebreide rapportages per filiaal",
-      "Prioriteit-support",
-      "Onboarding op maat",
-      "Extra maatwerk mogelijk",
-    ],
-  },
-];
-
-/** WhatsApp-bericht voor een specifiek pakket + periode. */
-export function packageMessage(pkgName: string, periodLabel: string, price: number): string {
-  return `Hoi Baber! Ik wil graag het ${pkgName}-pakket (${periodLabel}) afnemen voor mijn barbershop — €${price}. Kunnen jullie mij helpen?`;
+export function formatPrice(value: number, currency: CurrencyId, locale: string): string {
+  const intlLocale = locale === "ar" ? "ar-u-nu-latn" : locale === "nl" ? "nl-NL" : "en-GB";
+  return new Intl.NumberFormat(intlLocale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(value);
 }
-
-export const NAV_LINKS = [
-  { href: "#over", label: "Over" },
-  { href: "#werkwijze", label: "Werkwijze" },
-  { href: "#diensten", label: "Wat je krijgt" },
-  { href: "#werk", label: "Voorbeelden" },
-  { href: "#prijzen", label: "Prijzen" },
-  { href: "#contact", label: "Contact" },
-] as const;

@@ -1,135 +1,143 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "./I18nProvider";
+import SectionHeading from "./ui/SectionHeading";
+import Icon from "./ui/Icon";
+import { fill } from "@/src/i18n";
+import { track } from "@/src/lib/track";
 import {
-  PACKAGES,
-  BILLING_PERIODS,
-  type BillingPeriodId,
+  CURRENCIES,
+  PACKAGE_PRICES_EUR,
+  PERIOD_MONTHS,
+  POPULAR_PACKAGE,
+  convertPrice,
+  formatPrice,
   whatsappLink,
-  packageMessage,
+  type PackageId,
+  type PeriodId,
 } from "@/src/config/site";
 
 export default function Pricing() {
-  const [period, setPeriod] = useState<BillingPeriodId>("maand");
-  const activePeriod = BILLING_PERIODS.find((p) => p.id === period)!;
+  const { t, locale, currency, setCurrency } = useI18n();
+  const p = t.pricing;
+  const [period, setPeriod] = useState<PeriodId>("month");
+  const per = p.periods.find((x) => x.id === period)!;
+
+  const savePct = (id: PeriodId) => {
+    const base = PACKAGE_PRICES_EUR.professional.month * PERIOD_MONTHS[id];
+    return Math.round((1 - PACKAGE_PRICES_EUR.professional[id] / base) * 100);
+  };
 
   return (
-    <section id="prijzen" className="relative border-t border-white/5 py-28 md:py-40">
+    <section id="pricing" aria-labelledby="pricing-title" className="section border-t border-white/[0.05]">
       <div className="container-x">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Prijzen</span>
-          <h2 className="display-heading mt-7 text-[clamp(2.5rem,6vw,4.5rem)] text-white">
-            Kies je <span className="accent-serif">pakket</span>
-          </h2>
-          <p className="mt-6 text-lg font-light text-white/55">
-            Transparante prijzen, geen verrassingen. Afnemen doe je eenvoudig
-            via WhatsApp — wij regelen de rest.
-          </p>
-        </div>
+        <SectionHeading id="pricing-title" align="center" eyebrow={p.eyebrow} title={p.title} accent={p.titleAccent} intro={p.intro} />
 
-        {/* Periode-schakelaar */}
-        <div className="mt-12 flex justify-center">
-          <div
-            role="tablist"
-            aria-label="Facturatieperiode"
-            className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1"
-          >
-            {BILLING_PERIODS.map((p) => (
-              <button
-                key={p.id}
-                role="tab"
-                aria-selected={period === p.id}
-                onClick={() => setPeriod(p.id)}
-                className={`rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
-                  period === p.id
-                    ? "bg-brand text-white shadow-[0_8px_30px_-8px_rgba(230,5,13,0.7)]"
-                    : "text-white/60 hover:text-white"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
+        <div className="reveal mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div role="radiogroup" aria-label={p.eyebrow} className="inline-flex rounded-full border border-white/10 bg-white/[0.03] p-1">
+            {p.periods.map((x) => {
+              const id = x.id as PeriodId;
+              const active = period === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  onClick={() => {
+                    setPeriod(id);
+                    track("pricing_period", { period: id });
+                  }}
+                  className={`relative rounded-full px-4 py-2.5 text-[13px] transition-all duration-300 ${active ? "bg-bone text-ink" : "text-bone/60 hover:text-bone"}`}
+                >
+                  {x.label}
+                  {id !== "month" && (
+                    <span className={`ms-1.5 text-[11px] ${active ? "text-brand-600" : "text-brand"}`}>−{savePct(id)}%</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
+          <label className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1 pe-3 ps-4 text-[13px] text-bone/60">
+            <Icon name="globe" className="h-4 w-4" />
+            <span className="sr-only">{p.currency}</span>
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value as typeof currency)}
+              className="cursor-pointer appearance-none bg-transparent py-1.5 pe-5 text-bone focus:outline-none"
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c.id} value={c.id} className="bg-neutral-900">
+                  {c.id}
+                </option>
+              ))}
+            </select>
+            <Icon name="down" className="pointer-events-none absolute end-3 h-3.5 w-3.5" />
+          </label>
         </div>
 
-        {/* Pakketten */}
-        <div className="mt-14 grid gap-6 lg:grid-cols-3 lg:items-stretch">
-          {PACKAGES.map((pkg) => {
-            const price = pkg.prices[period];
-            const href = whatsappLink(
-              packageMessage(pkg.name, activePeriod.messageLabel, price)
-            );
-            const popular = pkg.mostPopular;
-
+        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          {p.packages.map((pkg, i) => {
+            const id = pkg.id as PackageId;
+            const eur = PACKAGE_PRICES_EUR[id][period];
+            const price = formatPrice(convertPrice(eur, currency), currency, locale);
+            const popular = id === POPULAR_PACKAGE;
             return (
-              <div
-                key={pkg.id}
-                className={`relative flex flex-col rounded-3xl border p-8 transition-all duration-500 ${
-                  popular
-                    ? "border-brand/50 bg-gradient-to-b from-brand/[0.14] to-white/[0.02] lg:-my-3 lg:pt-12"
-                    : "border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.01]"
+              <article
+                key={id}
+                style={{ ["--d" as string]: `${i * 90}ms` }}
+                className={`reveal relative flex flex-col rounded-[28px] border p-8 transition-transform duration-500 hover:-translate-y-1 ${
+                  popular ? "border-brand/50 bg-gradient-to-b from-brand/[0.12] to-white/[0.02] shadow-[0_40px_100px_-40px_rgba(230,5,13,.6)]" : "border-white/[0.08] bg-white/[0.025]"
                 }`}
               >
                 {popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
-                    Meest gekozen
-                  </span>
+                  <span className="absolute -top-3 start-8 rounded-full bg-brand px-3 py-1 text-[11px] font-medium text-white">{p.popular}</span>
                 )}
-
-                <div className="flex items-baseline justify-between">
-                  <h3 className="font-display text-2xl font-light text-white">
-                    {pkg.name}
-                  </h3>
-                </div>
-                <p className="mt-2 min-h-[48px] text-sm font-light leading-relaxed text-white/55">
-                  {pkg.description}
+                <h3 className="text-xl font-medium text-bone">{pkg.name}</h3>
+                <p className="mt-2 min-h-[48px] text-[14px] leading-relaxed text-bone/55">{pkg.desc}</p>
+                <p className="mt-8 flex items-baseline gap-2">
+                  <span key={price} className="animate-fade-up text-5xl font-light tracking-tight text-bone">
+                    {price}
+                  </span>
+                  <span className="text-[13px] text-bone/45">{per.suffix}</span>
                 </p>
-
-                <div className="mt-6 flex items-end gap-2">
-                  <span className="font-display text-6xl font-extralight tracking-tight text-white">
-                    €{price}
-                  </span>
-                  <span className="mb-2 text-sm font-light text-white/45">
-                    {activePeriod.suffix}
-                  </span>
-                </div>
-
+                <p className="mt-2 h-4 text-[11px] text-bone/35">{currency !== "EUR" ? fill(p.indicative, { cur: currency }) : ""}</p>
                 <a
-                  href={href}
+                  href={whatsappLink(fill(t.wa.pkg, { pkg: pkg.name, period: per.msg, price }))}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-track="cta_primary"
+                  data-label={`pricing_${id}`}
                   className={`mt-7 w-full ${popular ? "btn-primary" : "btn-ghost"}`}
                 >
-                  Kies {pkg.name} via WhatsApp
+                  {fill(p.choose, { pkg: pkg.name })}
                 </a>
-
-                <ul className="mt-8 space-y-3.5 border-t border-white/10 pt-8">
-                  {pkg.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm font-light text-white/75">
-                      <span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-brand/15">
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="h-3 w-3 text-brand"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </span>
+                <ul className="mt-8 space-y-3 border-t border-white/[0.07] pt-7">
+                  {pkg.features.map((f, j) => (
+                    <li key={f} className="flex gap-3 text-[14px] text-bone/75">
+                      <svg viewBox="0 0 24 24" style={{ ["--d" as string]: `${300 + j * 70}ms` }} className="check-draw mt-0.5 h-4 w-4 shrink-0 text-brand" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <path d="M5 12.5l4.2 4.2L19 7" />
+                      </svg>
                       {f}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </article>
             );
           })}
         </div>
 
-        <p className="mt-10 text-center text-sm font-light text-white/40">
-          Alle bedragen in euro&apos;s. Aankoop verloopt via WhatsApp — je zit
-          nergens direct aan vast.
-        </p>
+        <div className="reveal surface mt-5 flex flex-col items-start justify-between gap-5 p-7 sm:flex-row sm:items-center">
+          <div>
+            <h3 className="text-lg font-medium text-bone">{p.custom.title}</h3>
+            <p className="mt-1 text-[14px] text-bone/55">{p.custom.body}</p>
+          </div>
+          <a href={whatsappLink(t.wa.custom)} target="_blank" rel="noopener noreferrer" data-track="cta_secondary" data-label="pricing_custom" className="btn-ghost shrink-0">
+            {p.custom.cta}
+          </a>
+        </div>
+        <p className="mt-6 text-center text-[12px] text-bone/35">{p.note}</p>
       </div>
     </section>
   );

@@ -83,7 +83,7 @@ jobs:
           from pathlib import Path
 
           base = os.environ["BASE"].rstrip("/")
-          roots = ("/nawa-", "/booking-", "/brand/")
+          roots = ("/img/", "/brand/")
           for path in Path("out").rglob("*.html"):
               text = path.read_text(encoding="utf-8")
               for attr in ("src", "href"):
